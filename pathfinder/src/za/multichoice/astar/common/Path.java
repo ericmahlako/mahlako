@@ -1,4 +1,4 @@
-package za.multichoice.astart.common;
+package za.multichoice.astar.common;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package za.multichoice.astart.common;
+package za.multichoice.astar.common;
 
 public abstract class Obstacle {
 
