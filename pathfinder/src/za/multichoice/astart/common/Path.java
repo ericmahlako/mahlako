@@ -3,8 +3,8 @@ package za.multichoice.astart.common;
 import java.util.ArrayList;
 
 public class Path {
-
 	private ArrayList<Step> steps = new ArrayList<Step>();
+
 	public Path() {
 
 	}

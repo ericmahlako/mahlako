@@ -2,7 +2,6 @@ package za.multichoice.astart.common;
 
 
 public class Tile{
-
 	private float estimatedCost;
 	private float pathCost;
 	private int searchDepth;

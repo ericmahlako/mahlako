@@ -1,7 +1,6 @@
 package za.multichoice.astart.common;
 
 public class Step {
-
 	private int x;
 	private int y;
 
