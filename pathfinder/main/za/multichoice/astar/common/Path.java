@@ -5,9 +5,7 @@ import java.util.ArrayList;
 public class Path {
 	private ArrayList<Step> steps = new ArrayList<Step>();
 
-	public Path() {
-
-	}
+	public Path() {	}
 
 	public int getLength() {
 		return steps.size();
