@@ -11,7 +11,9 @@ import za.multichoice.astar.common.Tile;
 import za.multichoice.astar.common.TileComparator;
 import za.multichoice.astar.common.TileMap;
 
-public class AStarSeachAlgorithm  implements PathFinder {
+
+public class AStarSeachAlgorithm implements PathFinder
+{
 	private List<Tile> closed = new ArrayList<Tile>();
 	private List<Tile> open = new ArrayList<Tile>();
 	private TileMap map;
@@ -20,11 +22,12 @@ public class AStarSeachAlgorithm  implements PathFinder {
 	private Manhattan costCalculator;
 
 	public AStarSeachAlgorithm(TileMap map, int maxSearchDistance) {
+
 		this(map, maxSearchDistance, new Manhattan());
 	}
 
-	public AStarSeachAlgorithm(TileMap map, int maxSearchDistance,
-			Manhattan costCalculator) {
+	public AStarSeachAlgorithm(TileMap map, int maxSearchDistance, Manhattan costCalculator) {
+
 		this.costCalculator = costCalculator;
 		this.map = map;
 		this.maxSearchDistance = maxSearchDistance;
@@ -59,12 +62,12 @@ public class AStarSeachAlgorithm  implements PathFinder {
 				break;
 			}
 
-			removeFromOpen(current);
+			removeFromOpenList(current);
 			addToClosed(current);
 
 			// Searching the surrounding tiles for walkable choices
-			for (int x = -1; x < 2; x++) {
-				for (int y = -1; y < 2; y++) {
+			for (int x = -1; x <= 1; x++) {
+				for (int y = -1; y <= 1; y++) {
 
 					// not a neighbour, its the current tile
 					if ((x == 0) && (y == 0)) {
@@ -76,31 +79,26 @@ public class AStarSeachAlgorithm  implements PathFinder {
 					int yp = y + current.getY();
 
 					if (isValidLocation(sx, sy, xp, yp)) {
-						
-						//cost of movement = path cost so far, plus the cost to move to the tile being considered.
-						float nextStepCost = current.getPathCost()
-								+ getMovementCost(current.getX(),
-										current.getY(), xp, yp);
+
+						// cost of movement = path cost so far, plus the cost to move to the tile being considered.
+						float nextStepCost = current.getPathCost() + getMovementCost(current.getX(), current.getY(), xp, yp);
 						Tile neighbour = tiles[xp][yp];
 						map.searchedLocation(xp, yp);
 
-						//evaluate the best move
+						// evaluate the best move
 						if (nextStepCost < neighbour.getPathCost()) {
 							if (isInOpenList(neighbour)) {
-								removeFromOpen(neighbour);
+								removeFromOpenList(neighbour);
 							}
 							if (isInClosedList(neighbour)) {
-								removeFromClosed(neighbour);
+								removeFromClosedList(neighbour);
 							}
 						}
 
-						if (!isInOpenList(neighbour)
-								&& !(isInClosedList(neighbour))) {
+						if (!isInOpenList(neighbour) && !(isInClosedList(neighbour))) {
 							neighbour.setPathCost(nextStepCost);
-							neighbour.setEstimatedCost(getEstimatedCost(xp, yp,
-									tx, ty));
-							maxDepth = Math.max(maxDepth,
-									neighbour.setParentDepth(current));
+							neighbour.setEstimatedCost(getEstimatedCost(xp, yp, tx, ty));
+							maxDepth = Math.max(maxDepth, neighbour.setParentDepth(current));
 							addToOpen(neighbour);
 						}
 					}
@@ -126,37 +124,44 @@ public class AStarSeachAlgorithm  implements PathFinder {
 	}
 
 	protected Tile getFirstInOpen() {
+
 		return open.get(0);
 	}
 
 	protected void addToOpen(Tile node) {
+
 		open.add(node);
 		Collections.sort(open, new TileComparator());
 	}
 
 	protected boolean isInOpenList(Tile node) {
+
 		return open.contains(node);
 	}
 
-	protected void removeFromOpen(Tile node) {
+	protected void removeFromOpenList(Tile node) {
+
 		open.remove(node);
 	}
 
 	protected void addToClosed(Tile node) {
+
 		closed.add(node);
 	}
 
 	protected boolean isInClosedList(Tile tile) {
+
 		return closed.contains(tile);
 	}
 
-	protected void removeFromClosed(Tile tile) {
+	protected void removeFromClosedList(Tile tile) {
+
 		closed.remove(tile);
 	}
 
 	protected boolean isValidLocation(int sx, int sy, int x, int y) {
-		boolean invalid = (x < 0) || (y < 0) || (x >= map.getWidth())
-				|| (y >= map.getHeight());
+
+		boolean invalid = (x < 0) || (y < 0) || (x >= map.getWidth()) || (y >= map.getHeight());
 
 		if ((!invalid) && ((sx != x) || (sy != y))) {
 			invalid = map.walkable(x, y);
@@ -166,10 +171,12 @@ public class AStarSeachAlgorithm  implements PathFinder {
 	}
 
 	public float getMovementCost(int sx, int sy, int tx, int ty) {
+
 		return map.getCost(sx, sy, tx, ty);
 	}
 
 	public float getEstimatedCost(int x, int y, int tx, int ty) {
+
 		return costCalculator.getCost(x, y, tx, ty);
 	}
 }

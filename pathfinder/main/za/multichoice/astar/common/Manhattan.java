@@ -1,9 +1,10 @@
 package za.multichoice.astar.common;
 
-public class Manhattan {
+public class Manhattan
+{
 
-	public float getCost(int x, int y, int tx,
-			int ty) {
+	public float getCost(int x, int y, int tx, int ty) {
+
 		return (Math.abs(x - tx) + Math.abs(y - ty));
 	}
 }
